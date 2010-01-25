@@ -12,6 +12,7 @@ require 'tmpdir'
 
 require 'rubygems'
 require 'macaddr'
+require 'base62'
 
 
 ##

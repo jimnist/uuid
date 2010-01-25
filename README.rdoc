@@ -7,10 +7,15 @@ applications. Based on {RFC 4122}[http://www.ietf.org/rfc/rfc4122.txt].
 == Generating UUIDs
 
 Call #generate to generate a new UUID. The method returns a string in one of
-three formats. The default format is 36 characters long, and contains the 32
+four formats. The default format is 36 characters long, and contains the 32
 hexadecimal octets and hyphens separating the various value parts. The
 <tt>:compact</tt> format omits the hyphens, while the <tt>:urn</tt> format
 adds the <tt>:urn:uuid</tt> prefix.
+
+The gn0m30 fork of uuid adds another format, the <tt>:teenie</tt> format
+converts the numeric portions of the default format to base 62 representations
+for use in situations where case sensitive keys might be useful like Amazon S3.
+
 
 For example:
 
@@ -73,18 +78,14 @@ State files are not portable across machines.
 
 == Latest and Greatest
 
-Stable release are made through RubyForge, to upgrade simply:
+Stable release are made through Gemcutter, to upgrade simply:
 
-  gem upgrade uuid
+  gem upgrade gn0m30-uuid
 
-You can subscribe for notifications of new releases through the reliable-msg
-project page at http://rubyforge.org/projects/reliable-msg
 
-Source code and documentation hosted on Github: http://github.com/assaf/uuid
+gn0m30-uuid is forked from UUID available here: http://github.com/assaf/uuid
 
-To get UUID from source:
-
-  git clone git://github.com/assaf/uuid.git
+Source code and documentation hosted on Github: http://github.com/gn0m30/uuid
 
 
 == License

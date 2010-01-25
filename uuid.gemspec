@@ -1,15 +1,15 @@
 spec = Gem::Specification.new do |spec|
-  spec.name = 'uuid'
-  spec.version = '2.1.0'
-  spec.summary = "UUID generator"
+  spec.name = 'gn0m30-uuid'
+  spec.version = '2.1.1'
+  spec.summary = "UUID generator with teenie format"
   spec.description = <<-EOF
 UUID generator for producing universally unique identifiers based on RFC 4122
 (http://www.ietf.org/rfc/rfc4122.txt).
 EOF
 
-  spec.authors << 'Assaf Arkin' << 'Eric Hodel'
-  spec.email = 'assaf@labnotes.org'
-  spec.homepage = 'http://github.com/assaf/uuid'
+  spec.authors << 'Assaf Arkin' << 'Eric Hodel' << 'jim nist'
+  spec.email = 'reggie@loco8.org'
+  spec.homepage = 'http://github.com/gn0m30/uuid'
 
   spec.files = Dir['{bin,test,lib,docs}/**/*'] + ['README.rdoc', 'MIT-LICENSE', 'Rakefile', 'CHANGELOG', 'uuid.gemspec']
   spec.has_rdoc = true
