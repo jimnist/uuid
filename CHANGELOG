@@ -1,3 +1,6 @@
+2.1.1 (2010-01-25)
+* added the :teenie format
+
 2.1.0 (2009-12-16)
 * Added uuid.validate -- easier to implement than explain why it's wrong.
 

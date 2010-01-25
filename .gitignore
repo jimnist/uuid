@@ -1,4 +1,4 @@
+*.gem
 nbproject/
-pkg/
 *.swp
 /html

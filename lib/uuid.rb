@@ -62,7 +62,7 @@ class UUID
 
   # Version number.
   module Version
-    version = Gem::Specification.load(File.expand_path("../uuid.gemspec", File.dirname(__FILE__))).version.to_s.split(".").map { |i| i.to_i }
+    version = Gem::Specification.load(File.expand_path("../gn0m30-uuid.gemspec", File.dirname(__FILE__))).version.to_s.split(".").map { |i| i.to_i }
     MAJOR = version[0]
     MINOR = version[1]
     PATCH = version[2]
@@ -93,10 +93,12 @@ class UUID
   # <tt>:compact</tt>:: Produces a 32 digits (hexadecimal) value with no
   #                     hyphens
   # <tt>:urn</tt>:: Adds the prefix <tt>urn:uuid:</tt> to the default format
+  # <tt>:teenie</tt>:: converts numeric portions of default format to base62
   FORMATS = {
     :compact => '%08x%04x%04x%04x%012x',
     :default => '%08x-%04x-%04x-%04x-%012x',
     :urn     => 'urn:uuid:%08x-%04x-%04x-%04x-%012x',
+    :teenie  => '%08x-%04x-%04x-%04x-%012x',  # TODO: fix this
   }
 
   ##

@@ -11,7 +11,7 @@ EOF
   spec.email = 'reggie@loco8.org'
   spec.homepage = 'http://github.com/gn0m30/uuid'
 
-  spec.files = Dir['{bin,test,lib,docs}/**/*'] + ['README.rdoc', 'MIT-LICENSE', 'Rakefile', 'CHANGELOG', 'uuid.gemspec']
+  spec.files = Dir['{bin,test,lib,docs}/**/*'] + ['README.rdoc', 'MIT-LICENSE', 'Rakefile', 'CHANGELOG', 'gn0m30-uuid.gemspec']
   spec.has_rdoc = true
   spec.rdoc_options << '--main' << 'README.rdoc' << '--title' <<  'UUID generator' << '--line-numbers'
                        '--webcvs' << 'http://github.com/assaf/uuid'

@@ -2,7 +2,7 @@ require 'rake/testtask'
 require 'rake/rdoctask'
 
 
-spec = Gem::Specification.load(File.expand_path("uuid.gemspec", File.dirname(__FILE__)))
+spec = Gem::Specification.load(File.expand_path("gn0m30-uuid.gemspec", File.dirname(__FILE__)))
 
 desc "Default Task"
 task :default => :test
