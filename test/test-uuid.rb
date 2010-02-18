@@ -31,6 +31,8 @@ class TestUUID < Test::Unit::TestCase
     assert_match(/^urn:uuid:[\da-f]{8}-[\da-f]{4}-[\da-f]{4}-[\da-f]{4}-[\da-f]{12}\z/i,
                  uuid.generate(:urn))
 
+    assert_match(/\A[\da-fA-f]{24}\z/i, uuid.generate(:teenie))
+
     e = assert_raise ArgumentError do
       uuid.generate :unknown
     end
@@ -47,6 +49,8 @@ class TestUUID < Test::Unit::TestCase
     assert_match(/^urn:uuid:[\da-f]{8}-[\da-f]{4}-[\da-f]{4}-[\da-f]{4}-[\da-f]{12}\z/i,
                  UUID.generate(:urn))
 
+    assert_match(/\A[\da-fA-f]{24}\z/i, UUID.generate(:teenie))
+
     e = assert_raise ArgumentError do
       UUID.generate :unknown
     end
@@ -60,11 +64,23 @@ class TestUUID < Test::Unit::TestCase
     assert  UUID.validate('01234567-abcd-8901-efab-234567890123'), 'default'
     assert  UUID.validate('urn:uuid:01234567-abcd-8901-efab-234567890123'),
             'urn'
+    assert  UUID.validate_teenie('4etJlQGyu04qEJs002f129iS'), 'teenie'
 
     assert  UUID.validate('01234567ABCD8901EFAB234567890123'), 'compact'
     assert  UUID.validate('01234567-ABCD-8901-EFAB-234567890123'), 'default'
     assert  UUID.validate('urn:uuid:01234567-ABCD-8901-EFAB-234567890123'),
             'urn'
+    assert  UUID.validate_teenie('1ldIDgGyv04qEJs002f129iS'), 'teenie'
+  end
+
+  def test_class_invalids
+    assert_nil  UUID.validate('01234567abcd8901efab234567890123000'), 'compact - too long'
+    assert_nil  UUID.validate('01234567abcd8901efab23456789012'), 'compact - too short'
+    assert_nil  UUID.validate('01234567abcd8901efzb234567890123'), 'compact - bad chars'
+
+    assert_nil  UUID.validate_teenie('1ldIDgGyv04qEJs002f129iSaaaaa'), 'teenie - too long'
+    assert_nil  UUID.validate_teenie('4etJlQGyu04qEJs02f129iS'), 'teenie - too short'
+    assert_nil  UUID.validate_teenie('1ldIDgGyv04qEJs002f1-9iS'), 'teenie - bad chars'
   end
 
   def test_monotonic

@@ -98,7 +98,7 @@ class UUID
     :compact => '%08x%04x%04x%04x%012x',
     :default => '%08x-%04x-%04x-%04x-%012x',
     :urn     => 'urn:uuid:%08x-%04x-%04x-%04x-%012x',
-    :teenie  => '%08x-%04x-%04x-%04x-%012x',  # TODO: fix this
+    :teenie  => '%6.6s%3.3s%3.3s%3.3s%9.9s',
   }
 
   ##
@@ -170,12 +170,19 @@ class UUID
   ##
   # Returns true if +uuid+ is in compact, default or urn formats.  Does not
   # validate the layout (RFC 4122 section 4) of the UUID.
+  # does not validate :teenie format. see validate_teenie
   def self.validate(uuid)
     return true if uuid =~ /\A[\da-f]{32}\z/i
     return true if
       uuid =~ /\A(urn:uuid:)?[\da-f]{8}-([\da-f]{4}-){3}[\da-f]{12}\z/i
   end
 
+  ##
+  # Returns true if +uuid+ is in teenie format
+  def self.validate_teenie(uuid)
+    return true if uuid =~ /\A[\da-fA-f]{24}\z/i
+  end
+  
   ##
   # Create a new UUID generator.  You really only need to do this once.
   def initialize
@@ -235,13 +242,24 @@ class UUID
       end
     end until clock
 
-    template % [
-        clock        & 0xFFFFFFFF,
-       (clock >> 32) & 0xFFFF,
-      ((clock >> 48) & 0xFFFF | VERSION_CLOCK),
-      @sequence      & 0xFFFF,
-      @mac           & 0xFFFFFFFFFFFF
-    ]
+    part1 = clock & 0xFFFFFFFF
+    part2 = (clock >> 32) & 0xFFFF
+    part3 = ((clock >> 48) & 0xFFFF | VERSION_CLOCK)
+    part4 = @sequence & 0xFFFF
+    part5 = @mac & 0xFFFFFFFFFFFF
+
+    # for this special case, the parts are going to be strings which we will 0 pad
+    if format == :teenie
+      part1 = part1.base62_encode
+      part2 = part2.base62_encode
+      part3 = part3.base62_encode
+      part4 = part4.base62_encode
+      part5 = part5.base62_encode
+
+      (template % [part1, part2, part3, part4, part5]).gsub(' ', '0')
+    else
+      template % [part1, part2, part3, part4, part5]
+    end
   end
 
   ##

@@ -1,6 +1,6 @@
 spec = Gem::Specification.new do |spec|
   spec.name = 'gn0m30-uuid'
-  spec.version = '2.1.1'
+  spec.version = '2.1.2'
   spec.summary = "UUID generator with teenie format"
   spec.description = <<-EOF
 UUID generator for producing universally unique identifiers based on RFC 4122
@@ -18,4 +18,5 @@ EOF
   spec.extra_rdoc_files = ['README.rdoc', 'MIT-LICENSE']
 
   spec.add_dependency 'macaddr', ['~>1.0']
+  spec.add_dependency 'base62', ['~>0.1.0']
 end
