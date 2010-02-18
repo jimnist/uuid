@@ -1,5 +1,15 @@
-2.1.1 (2010-01-25)
+
+2.2.1 (2010-02-18)
+* merged changes from assaf/uuid
+
+2.2.0 (2010-02-18)
+* Added: set UUID.state_file = false if you cannot use a state file (e.g. shared hosting environment)
+
+2.1.2 (2010-01-25)
 * added the :teenie format
+
+2.1.1 (2010-01-27)
+* Fixed bug which caused UUID.new to fail if the state file was somehow extant but empty
 
 2.1.0 (2009-12-16)
 * Added uuid.validate -- easier to implement than explain why it's wrong.
