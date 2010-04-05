@@ -13,7 +13,7 @@ require 'tmpdir'
 require 'rubygems'
 require 'macaddr'
 require 'base62'
-
+require 'scanf'
 
 ##
 # = Generating UUIDs
@@ -186,6 +186,36 @@ class UUID
   def self.validate_teenie(uuid)
     return true if uuid =~ /\A[\da-fA-f]{24}\z/i
   end
+
+  ##
+  # translate one format uuid to another
+  def self.translate(uuid, source_format, target_format)
+    if source_format == :teenie
+      raise "invalid uuid passed in for translation" unless UUID.validate_teenie(uuid)
+    else
+      raise "invalid uuid passed in for translation" unless UUID.validate(uuid)
+    end
+
+    raise "invalid source format passed in for tranlation" unless FORMATS[source_format]
+    raise "invalid target format passed in for tranlation" unless FORMATS[target_format]
+    raise "it's a waste of time to translate one format to another" unless source_format != target_format
+
+    parts = Array.new
+    
+    if source_format != :teenie
+      parts = uuid.scanf(FORMATS[source_format])
+    else
+      # this has to stay in synch with the :teenie format
+      parts[0] = uuid[0..5].base62_decode
+      parts[1] = uuid[6..8].base62_decode
+      parts[2] = uuid[9..11].base62_decode
+      parts[3] = uuid[12..14].base62_decode
+      parts[4] = uuid[15..23].base62_decode
+    end
+
+    @uuid ||= new
+    @uuid.generate_from_parts(target_format, parts[0], parts[1], parts[2], parts[3], parts[4])
+  end
   
   ##
   # Create a new UUID generator.  You really only need to do this once.
@@ -214,9 +244,6 @@ class UUID
   # Generates a new UUID string using +format+.  See FORMATS for a list of
   # supported formats.
   def generate(format = :default)
-    template = FORMATS[format]
-
-    raise ArgumentError, "invalid UUID format #{format.inspect}" unless template
 
     # The clock must be monotonically increasing. The clock resolution is at
     # best 100 ns (UUID spec), but practically may be lower (on my setup,
@@ -255,18 +282,7 @@ class UUID
     part4 = @sequence & 0xFFFF
     part5 = @mac & 0xFFFFFFFFFFFF
 
-    # for this special case, the parts are going to be strings which we will 0 pad
-    if format == :teenie
-      part1 = part1.base62_encode
-      part2 = part2.base62_encode
-      part3 = part3.base62_encode
-      part4 = part4.base62_encode
-      part5 = part5.base62_encode
-
-      (template % [part1, part2, part3, part4, part5]).gsub(' ', '0')
-    else
-      template % [part1, part2, part3, part4, part5]
-    end
+    generate_from_parts(format, part1, part2, part3, part4, part5)
   end
 
   ##
@@ -300,6 +316,28 @@ class UUID
     "MAC: #{mac}  Sequence: #{@sequence}"
   end
 
+  ##
+  # this is used both for generation and translation
+  def generate_from_parts(format, part1, part2, part3, part4, part5)
+
+    template = FORMATS[format]
+
+    raise ArgumentError, "invalid UUID format #{format.inspect}" unless template
+
+    # for this special case, the parts are going to be strings which we will 0 pad
+    if format == :teenie
+      part1 = part1.base62_encode
+      part2 = part2.base62_encode
+      part3 = part3.base62_encode
+      part4 = part4.base62_encode
+      part5 = part5.base62_encode
+
+      (template % [part1, part2, part3, part4, part5]).gsub(' ', '0')
+    else
+      template % [part1, part2, part3, part4, part5]
+    end
+  end
+  
 protected
 
   ##
