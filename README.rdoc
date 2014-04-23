@@ -12,7 +12,7 @@ hexadecimal octets and hyphens separating the various value parts. The
 <tt>:compact</tt> format omits the hyphens, while the <tt>:urn</tt> format
 adds the <tt>:urn:uuid</tt> prefix.
 
-The gn0m30 fork of uuid adds another format, the <tt>:teenie</tt> format
+The ngn33r fork of uuid adds another format, the <tt>:teenie</tt> format
 converts the numeric portions of the default format to base 62 representations
 for use in situations where case sensitive keys might be useful like Amazon S3.
 
@@ -89,9 +89,9 @@ Stable release are made through Gemcutter, to upgrade simply:
   gem upgrade gn0m30-uuid
 
 
-gn0m30-uuid is forked from UUID available here: http://github.com/assaf/uuid
+uuid is forked from UUID available here: http://github.com/assaf/uuid
 
-Source code and documentation hosted on Github: http://github.com/gn0m30/uuid
+Source code and documentation hosted on Github: http://github.com/ngn33r/uuid
 
 
 == License
